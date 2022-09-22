@@ -94,6 +94,9 @@ new Handle:cvarSurvivorLimit;
 new Handle:cvarSurvivorMaxIncapCount;
 new Handle:cvarPainPillsAddPool;
 new Handle:cvarHealthBonusDivisor;
+
+int maxCompletionScoreCache;
+
 new firstRoundBonus;
 new firstRoundHealth[HEALTH_TABLE_SIZE];
 new currentRoundBonus;
@@ -158,7 +161,7 @@ public Action Cmd_ShowInfo(client, args)
     FillMaxHealthTable(maxHealth);
     new maxBonus = CalculateTotalBonus(maxHealth);
 
-    CPrintToChat(client, "[Map Info] {default}({green}max distance{default}): {olive}%d{default}", L4D2_GetMapValueInt("max_distance", L4D_GetVersusMaxCompletionScore())); 
+    CPrintToChat(client, "[Map Info] {default}({green}max distance{default}): {olive}%d{default}", L4D2_GetMapValueInt("max_distance", maxCompletionScoreCache)); 
     CPrintToChat(client, "[Map Info] {default}({green}max bonus{default}): {olive}%d {default}[ Perm: {lightgreen}%d {default}| Temp: {lightgreen}%d {default} | Pills: {lightgreen}%d {default}]", 
         maxBonus, maxHealth[PERM_HEALTH_INDEX], maxHealth[TEMP_HEALTH_INDEX] + maxHealth[STOCK_TEMP_HEALTH_INDEX], 
         maxHealth[PILLS_HEALTH_INDEX]); 
@@ -231,9 +234,10 @@ public int CalculateTotalBonus(health[HEALTH_TABLE_SIZE])
  */
 public void ApplyBonusFactors(health[HEALTH_TABLE_SIZE], float ratio, index)
 {
+
         health[index] = 
             RoundFloat(health[index]
-            * L4D_GetVersusMaxCompletionScore() 
+            * maxCompletionScoreCache
             * ratio / HEALTH_DIVISOR
             / (MAX_REVIVES + SURVIVOR_LIMIT) 
             * (MAX_REVIVES + SURVIVOR_LIMIT - health[REVIVE_COUNT_INDEX] - (SURVIVOR_LIMIT - health[ALIVE_COUNT_INDEX])));
@@ -264,6 +268,7 @@ public int GetSurvivorTempHealth(client)
 public void OnMapStart() {
     firstRoundBonus = 0;
     firstRoundHealth = {0, 0, 0, 0, 0, 0};
+    maxCompletionScoreCache = L4D_GetVersusMaxCompletionScore();
 }
 
 public Action L4D2_OnEndVersusModeRound(bool:countSurvivors) 
