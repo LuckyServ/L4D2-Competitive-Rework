@@ -1,3 +1,9 @@
+# Other
+.vscode/
+addons/sourcemod/scripting/*.exe
+addons/sourcemod/scripting/*.dat
+addons/sourcemod/scripting/compiled/
+
 # Windows thumbnail cache files
 Thumbs.db
 ehthumbs.db
