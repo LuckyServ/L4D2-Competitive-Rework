@@ -136,6 +136,7 @@ public OnPluginStart()
 public OnConfigsExecuted()
 {
 	L4D_SetVersusMaxCompletionScore(L4D2_GetMapValueInt("max_distance", L4D_GetVersusMaxCompletionScore()));
+    maxCompletionScoreCache = L4D_GetVersusMaxCompletionScore();
 }
 
 /**
@@ -143,6 +144,7 @@ public OnConfigsExecuted()
  */
 public Action Cmd_ShowBonus(client, args) 
 {
+    PrintToChatAll("%i %i %i", maxCompletionScoreCache, L4D2_GetMapValueInt("max_distance", L4D_GetVersusMaxCompletionScore()), L4D_GetVersusMaxCompletionScore());
     new health[HEALTH_TABLE_SIZE] = {0, 0, 0, 0, 0, 0};
     FillHealthTable(health);
     new totalBonus = CalculateTotalBonus(health);
@@ -234,7 +236,6 @@ public int CalculateTotalBonus(health[HEALTH_TABLE_SIZE])
  */
 public void ApplyBonusFactors(health[HEALTH_TABLE_SIZE], float ratio, index)
 {
-
         health[index] = 
             RoundFloat(health[index]
             * maxCompletionScoreCache
@@ -268,7 +269,6 @@ public int GetSurvivorTempHealth(client)
 public void OnMapStart() {
     firstRoundBonus = 0;
     firstRoundHealth = {0, 0, 0, 0, 0, 0};
-    maxCompletionScoreCache = L4D_GetVersusMaxCompletionScore();
 }
 
 public Action L4D2_OnEndVersusModeRound(bool:countSurvivors) 
