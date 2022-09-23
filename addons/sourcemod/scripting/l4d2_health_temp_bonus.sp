@@ -144,7 +144,6 @@ public OnConfigsExecuted()
  */
 public Action Cmd_ShowBonus(client, args) 
 {
-    PrintToChatAll("%i %i %i", maxCompletionScoreCache, L4D2_GetMapValueInt("max_distance", L4D_GetVersusMaxCompletionScore()), L4D_GetVersusMaxCompletionScore());
     new health[HEALTH_TABLE_SIZE] = {0, 0, 0, 0, 0, 0};
     FillHealthTable(health);
     new totalBonus = CalculateTotalBonus(health);
