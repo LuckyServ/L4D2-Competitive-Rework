@@ -71,6 +71,6 @@ public void OnWeaponReload(Event hEvent, const char[] eName, bool dontBroadcast)
 	
 	SetEntPropFloat(weapon, Prop_Send, "m_flNextPrimaryAttack", newNextAttack);
 	SetEntPropFloat(client, Prop_Send, "m_flNextAttack", newNextAttack);
-	SetEntPropFloat(weapon, Prop_Send, "m_flPlaybackRate", playbackRate);
+	//SetEntPropFloat(weapon, Prop_Send, "m_flPlaybackRate", playbackRate);
 
 }
