@@ -72,43 +72,5 @@ public void OnWeaponReload(Event hEvent, const char[] eName, bool dontBroadcast)
 	SetEntPropFloat(weapon, Prop_Send, "m_flNextPrimaryAttack", newNextAttack);
 	SetEntPropFloat(client, Prop_Send, "m_flNextAttack", newNextAttack);
 	SetEntPropFloat(weapon, Prop_Send, "m_flPlaybackRate", playbackRate);
-}
 
-public Action OnPlayerRunCmd(int client, int &buttons)
-{
-	if (!(buttons & IN_ATTACK2)) {
-		return Plugin_Continue;
-	}
-	
-	if (!IsSurvivor(client) || !IsPlayerAlive(client) || IsFakeClient(client)) {
-		return Plugin_Continue;
-	}
-	
-	float originalReloadDuration = 0.0, alteredReloadDuration = 0.0;
-	
-	int weapon = GetPlayerWeaponSlot(client, 0);
-	int weaponId = IdentifyWeapon(weapon);
-
-	switch (weaponId) {
-		case WEPID_SMG: {
-			originalReloadDuration = 2.235352;
-			alteredReloadDuration = hCvarReloadSpeedUzi.FloatValue;
-		}
-		case WEPID_SMG_SILENCED: {
-			originalReloadDuration = 2.235291;
-			alteredReloadDuration = hCvarReloadSpeedSilencedSmg.FloatValue;
-		}
-		case WEPID_SMG_MP5: {
-			originalReloadDuration = 3.052642;
-			alteredReloadDuration = hCvarReloadSpeedMp5.FloatValue;
-		}
-		default: {
-			return Plugin_Continue;
-		}
-	}
-
-	float playbackRate = originalReloadDuration / alteredReloadDuration;
-	SetEntPropFloat(weapon, Prop_Send, "m_flPlaybackRate", playbackRate);
-	
-	return Plugin_Continue;
 }
