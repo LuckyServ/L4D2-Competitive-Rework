@@ -10,13 +10,14 @@
 
 ConVar hCvarReloadSpeedUzi;
 ConVar hCvarReloadSpeedSilencedSmg;
+ConVar hCvarReloadSpeedMp5;
 
 public Plugin myinfo =
 {
 	name = "L4D2 SMG Reload Speed Tweaker",
 	description = "Allows cvar'd control over the reload durations for both types of SMG",
 	author = "Visor",
-	version = "1.1.1",
+	version = "1.2.0",
 	url = "https://github.com/SirPlease/L4D2-Competitive-Rework/"
 };
 
@@ -24,7 +25,8 @@ public void OnPluginStart()
 {
 	hCvarReloadSpeedUzi = CreateConVar("l4d2_reload_speed_uzi", "0", "Reload duration of Uzi(normal SMG)", FCVAR_CHEAT|FCVAR_NOTIFY, true, 0.0, true, 10.0);
 	hCvarReloadSpeedSilencedSmg = CreateConVar("l4d2_reload_speed_silenced_smg", "0", "Reload duration of Silenced SMG", FCVAR_CHEAT|FCVAR_NOTIFY, true, 0.0, true, 10.0);
-	
+	hCvarReloadSpeedMp5 = CreateConVar("l4d2_reload_speed_mp5", "0", "Reload duration of MP5", FCVAR_CHEAT|FCVAR_NOTIFY, true, 0.0, true, 10.0);
+
 	HookEvent("weapon_reload", OnWeaponReload, EventHookMode_Post);
 }
 
@@ -49,6 +51,10 @@ public void OnWeaponReload(Event hEvent, const char[] eName, bool dontBroadcast)
 		case WEPID_SMG_SILENCED: {
 			originalReloadDuration = 2.235291;
 			alteredReloadDuration = hCvarReloadSpeedSilencedSmg.FloatValue;
+		}
+		case WEPID_SMG_MP5: {
+			originalReloadDuration = 3.052642;
+			alteredReloadDuration = hCvarReloadSpeedMp5.FloatValue;
 		}
 		default: {
 			return;
@@ -91,6 +97,10 @@ public Action OnPlayerRunCmd(int client, int &buttons)
 		case WEPID_SMG_SILENCED: {
 			originalReloadDuration = 2.235291;
 			alteredReloadDuration = hCvarReloadSpeedSilencedSmg.FloatValue;
+		}
+		case WEPID_SMG_MP5: {
+			originalReloadDuration = 3.052642;
+			alteredReloadDuration = hCvarReloadSpeedMp5.FloatValue;
 		}
 		default: {
 			return Plugin_Continue;
