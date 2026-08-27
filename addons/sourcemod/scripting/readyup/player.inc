@@ -58,6 +58,12 @@ void SetButtonTime(int client)
 {
 	buttonTime[client] = GetEngineTime();
 
+	// Don't auto-ready a player who is still loading in / switching teams:
+	// PlayerTeam_Event unreadies them right after, and the pending team-change
+	// timer would cancel the live countdown, leaving everyone stuck readied.
+	if (g_hChangeTeamTimer[client] != null)
+		return;
+
 	int iPassTime = RoundToFloor(GetGameTime() - fStartTimestamp);
 
 	if (IsPlayer(client) && inReadyUp && l4d_ready_autoready.BoolValue && iPassTime >= l4d_ready_autoready.IntValue)
